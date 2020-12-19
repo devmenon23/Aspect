@@ -4,33 +4,71 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    CharacterController playerController;
-    [SerializeField] float speed = 10f;
-    [SerializeField] Vector3 jumpForce = new Vector3(0f, 10f, 0f);
-    [SerializeField] bool playerOnGround = true;
-    Rigidbody rb;
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float gravity = 9.81f;
+    [SerializeField] private float jumpSpeed = 3.5f;
+    [SerializeField] private float doubleJumpMultiplier = 0.5f;
+    [SerializeField] public float mouseSensitivity = 3;
+
+    private CharacterController controller;
+    private float directionY;
+    private bool canDoubleJump = false;
+
+    private Camera mainCamera;
+    private float mouseX;
+    private float mouseY;
+    public float maxUpAngle = 80;
+    public float maxDownAngle = -80;
+    private float rotX = 0.0f, rotY = 0.0f;
+    private float rotZ = 0.0f;
+
 
     void Start()
     {
-        playerController = GetComponent<CharacterController>();
-        rb = GetComponent<Rigidbody>();
+        controller = GetComponent<CharacterController>();
+        mainCamera = Camera.main;
     }
 
     void Update()
     {
-        Vector3 moveDistance = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        playerOnGround = playerController.isGrounded;
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
 
-        playerController.Move(moveDistance * speed * Time.deltaTime);
+        Vector3 direction = new Vector3(horizontalInput, 0, verticalInput);
 
-        if (moveDistance != Vector3.zero) // if player is moving
+        if (controller.isGrounded)
         {
-            gameObject.transform.forward = moveDistance; // change forward of player
+            canDoubleJump = true;
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                directionY = jumpSpeed;
+            }
+        }
+        else
+        {
+            if (Input.GetButtonDown("Jump") && canDoubleJump)
+            {
+                directionY = jumpSpeed * doubleJumpMultiplier;
+                canDoubleJump = false;
+            }
         }
 
-        if (Input.GetButtonDown("Jump"))
-        {
-            rb.AddForce(jumpForce);
-        }
+        directionY -= gravity * Time.deltaTime;
+
+        direction.y = directionY;
+
+        controller.Move(direction.z * Vector3.forward * moveSpeed * Time.deltaTime);
+        controller.Move(direction.x * Vector3.right * moveSpeed * Time.deltaTime);
+
+        mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+
+        rotX -= mouseY;
+        rotX = Mathf.Clamp(rotX, maxDownAngle, maxUpAngle);
+        rotY += mouseX;
+
+        mainCamera.transform.localRotation = Quaternion.Euler(rotX, rotY, rotZ);
+        transform.Rotate(Vector3.up * mouseX);
     }
 }

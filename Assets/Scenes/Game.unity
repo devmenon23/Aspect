@@ -23647,8 +23647,8 @@ GameObject:
   - component: {fileID: 1143272841}
   - component: {fileID: 1143272840}
   m_Layer: 0
-  m_Name: Main Camera
-  m_TagString: MainCamera
+  m_Name: Camera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29973,10 +29973,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75d7f2bc50d231b44b48743db53054a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  jumpForce: 10
-  gravity: -10
-  playerVelocity: {x: 0, y: 0, z: 0}
+  moveSpeed: 5
+  gravity: 9.81
+  jumpSpeed: 3.5
+  doubleJumpMultiplier: 0.5
+  mouseSensitivity: 1
+  maxUpAngle: 80
+  maxDownAngle: -80
 --- !u!1001 &1502363414
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40846,8 +40849,8 @@ GameObject:
   - component: {fileID: 2027971383}
   - component: {fileID: 2027971382}
   m_Layer: 0
-  m_Name: Camera
-  m_TagString: Untagged
+  m_Name: Main Camera
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
