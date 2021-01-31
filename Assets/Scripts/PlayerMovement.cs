@@ -9,34 +9,34 @@ public class PlayerMovement : MonoBehaviour
     public PlayerState currentState; 
 
     [Header("Speed")]
-    float speed;
     [SerializeField] float sprintingSpeed = 7f;
     [SerializeField] float walkingSpeed = 5f;
     [SerializeField] float crouchingSpeed = 3f;
+    float speed;
 
     [Header("Jump")]
     [SerializeField] float jumpHeight = 3f;
-    Vector3 velocity;
     [SerializeField] float gravity = -9.81f;
+    Vector3 velocity;
 
     [Header("Crouch")]
-    float originalHeight;
     [SerializeField] float reducedHeight;
-    bool isCrouching = false;
+    float originalHeight;
 
     [Header("Headbob")]
+    [SerializeField] Animator cameraAnimator;
     float originalFOV;
-    float sprintFOVmodifier = 1.3f;
+    float sprintFOVmodifier = 1.4f;
 
     [Header("Ground Check")]
     [SerializeField] Transform groundCheck;
-    float groundDistance = 0.4f;
     [SerializeField] LayerMask groundMask;
+    float groundDistance = 0.4f;
     bool isGrounded;
 
     void Start()
     {
-        currentState = PlayerState.standing;
+        currentState = PlayerState.idle;
         speed = walkingSpeed;
         originalHeight = controller.height;
         originalFOV = playerCamera.fieldOfView;
@@ -55,53 +55,41 @@ public class PlayerMovement : MonoBehaviour
         Move();
 
         // Sprint
-        if (Input.GetKey(KeyCode.LeftShift) && currentState != PlayerState.crouching)
+        if (Input.GetKey(KeyCode.LeftShift) && currentState == PlayerState.walking)
         {
-            currentState = PlayerState.sprinting;
-            playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, originalFOV * sprintFOVmodifier, Time.deltaTime * 8f);
-            speed = sprintingSpeed;
+            Sprint();
         }
 
+        // Crouch
+        else if (Input.GetKey(KeyCode.LeftControl) && isGrounded)
+        {
+            Crouch();
+        }
+
+        // Resetting Player
         else
         {
-            playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, originalFOV, Time.deltaTime * 8f);
-            if (currentState == PlayerState.crouching)
-            {
-                speed = crouchingSpeed;
-            }
-            else
-            {
-                speed = walkingSpeed;
-            }
+            ResetPlayer();
         }
 
         // Jump
-        if (Input.GetButtonDown("Jump") && isGrounded) 
+        if (Input.GetButtonDown("Jump") && currentState != PlayerState.crouching && isGrounded)
         {
-            if (isCrouching)
-            {
-                Jump();
-                Crouch();
-            }
-            else
-            {
-                Jump();
-            }
+            Jump();
         }
 
         velocity.y += gravity * Time.deltaTime; // this is for going back to the ground when you are in the air
 
         controller.Move(velocity * Time.deltaTime);
 
-        // Crouch
-        if (Input.GetKeyDown(KeyCode.LeftControl) && isGrounded)
+        // Headbob
+        if (currentState == PlayerState.idle)
         {
-            Crouch();
+            cameraAnimator.SetTrigger("Idle");
         }
-
-        else if (Input.GetKeyUp(KeyCode.LeftControl))
+        else if (currentState == PlayerState.walking & isGrounded)
         {
-            Stand();
+            cameraAnimator.SetTrigger("Walk_Headbob");
         }
     }
 
@@ -110,30 +98,47 @@ public class PlayerMovement : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
+        if (x == 0 && z == 0)
+        {
+            currentState = PlayerState.idle;
+        }
+
+        else if (speed == walkingSpeed  && (x > 0 || z > 0))
+        {
+            currentState = PlayerState.walking;
+        }
+
         Vector3 move = transform.right * x + transform.forward * z;
 
         controller.Move(move * speed * Time.deltaTime);
     }
 
-    void Jump()
+    void Sprint()
     {
-        velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        currentState = PlayerState.sprinting;
+        playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, originalFOV * sprintFOVmodifier, Time.deltaTime * 8f);
+        speed = sprintingSpeed;
     }
 
     void Crouch()
     {
-        isCrouching = true;
+        currentState = PlayerState.crouching;
         speed = crouchingSpeed;
-        controller.height = reducedHeight;
+        controller.height = Mathf.Lerp(controller.height, reducedHeight, Time.deltaTime * 5);
     }
 
-    void Stand()
+    void Jump()
     {
-        isCrouching = false;
-        speed = walkingSpeed;
-        controller.height = originalHeight;
+        currentState = PlayerState.jumping;
+        velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
     }
 
+    void ResetPlayer()
+    {
+        controller.height = Mathf.Lerp(controller.height, originalHeight, Time.deltaTime * 5);
+        playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, originalFOV, Time.deltaTime * 8f);
+        speed = walkingSpeed;
+    }
 }
-
-public enum PlayerState { standing, walking, sprinting, crouching}
+  
+public enum PlayerState { idle, walking, sprinting, jumping, crouching }
