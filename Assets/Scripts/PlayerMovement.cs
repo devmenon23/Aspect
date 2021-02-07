@@ -85,7 +85,9 @@ public class PlayerMovement : MonoBehaviour
         // Headbob
         if (currentState == PlayerState.idle)
         {
+            cameraAnimator.Rebind();
             cameraAnimator.SetTrigger("Idle");
+
         }
         else if (currentState == PlayerState.walking & isGrounded)
         {
