@@ -42756,10 +42756,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
 <<<<<<< HEAD
 <<<<<<< HEAD
-<<<<<<< HEAD
 =======
-=======
->>>>>>> parent of 687065b... BAsic Gun and Bullet movement made
 =======
 >>>>>>> parent of 687065b... BAsic Gun and Bullet movement made
 --- !u!1 &2027971380
@@ -42861,9 +42858,6 @@ MonoBehaviour:
   playerBody: {fileID: 1502180441}
   mouseSensitivity: 100
 <<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> parent of 687065b... BAsic Gun and Bullet movement made
-=======
 >>>>>>> parent of 687065b... BAsic Gun and Bullet movement made
 =======
 >>>>>>> parent of 687065b... BAsic Gun and Bullet movement made
