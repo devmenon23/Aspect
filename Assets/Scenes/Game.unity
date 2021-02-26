@@ -42755,10 +42755,7 @@ Transform:
   m_PrefabInstance: {fileID: 2027547205}
   m_PrefabAsset: {fileID: 0}
 <<<<<<< HEAD
-<<<<<<< HEAD
 =======
-=======
->>>>>>> parent of 687065b... BAsic Gun and Bullet movement made
 --- !u!1 &2027971380
 GameObject:
   m_ObjectHideFlags: 0
@@ -42857,9 +42854,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerBody: {fileID: 1502180441}
   mouseSensitivity: 100
-<<<<<<< HEAD
->>>>>>> parent of 687065b... BAsic Gun and Bullet movement made
-=======
 >>>>>>> parent of 687065b... BAsic Gun and Bullet movement made
 --- !u!1001 &2029586033
 PrefabInstance:
