@@ -42757,11 +42757,13 @@ Transform:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> parent of 687065b... BAsic Gun and Bullet movement made
 =======
->>>>>>> parent of 687065b... BAsic Gun and Bullet movement made
+>>>>>>> parent of 4903ebf... no
+=======
 --- !u!1 &2027971380
 GameObject:
   m_ObjectHideFlags: 0
@@ -42862,10 +42864,13 @@ MonoBehaviour:
   mouseSensitivity: 100
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> parent of 687065b... BAsic Gun and Bullet movement made
 =======
 >>>>>>> parent of 687065b... BAsic Gun and Bullet movement made
 =======
+=======
+>>>>>>> parent of 4903ebf... no
 >>>>>>> parent of 687065b... BAsic Gun and Bullet movement made
 --- !u!1001 &2029586033
 PrefabInstance:
