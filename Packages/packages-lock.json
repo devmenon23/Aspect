@@ -56,6 +56,7 @@
       "url": "https://packages.unity.com"
     },
 <<<<<<< HEAD
+<<<<<<< HEAD
     "com.unity.render-pipelines.core": {
       "version": "10.2.2",
       "depth": 1,
@@ -92,6 +93,8 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+=======
+>>>>>>> parent of 4932f24 (Muzzle Flash Made (After 6 hours))
 =======
 >>>>>>> parent of 4932f24 (Muzzle Flash Made (After 6 hours))
     "com.unity.settings-manager": {
