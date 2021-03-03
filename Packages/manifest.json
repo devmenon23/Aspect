@@ -7,11 +7,8 @@
     "com.unity.probuilder": "4.4.0",
     "com.unity.progrids": "3.0.3-preview.6",
 <<<<<<< HEAD
-<<<<<<< HEAD
     "com.unity.render-pipelines.high-definition": "10.2.2",
     "com.unity.render-pipelines.high-definition-config": "file:../LocalPackages/com.unity.render-pipelines.high-definition-config",
-=======
->>>>>>> parent of 4932f24 (Muzzle Flash Made (After 6 hours))
 =======
 >>>>>>> parent of 4932f24 (Muzzle Flash Made (After 6 hours))
     "com.unity.test-framework": "1.1.19",
