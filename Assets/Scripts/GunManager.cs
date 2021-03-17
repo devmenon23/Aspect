@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,27 +6,78 @@ using UnityEngine.VFX;
 
 public class GunManager : MonoBehaviour
 {
+    [SerializeField] float damage = 10f;
+    [SerializeField] float range = 100f;
+    [SerializeField] float fireRate = 15f;
+    [SerializeField] bool automatic = false;
+    [SerializeField] float nextTimeToFire = 0f;
+
+    [SerializeField] int maxAmmo = 20;
+    private int currentAmmo;
+    [SerializeField] float reloadTime = 1f;
+    private bool isReloading = false;
+
     [SerializeField] Camera playerCamera;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] VisualEffect MuzzleFlashVFX;
+    [SerializeField] VisualEffectObject BulletImpactVFX;
 
     void Start()
     {
-        
+        currentAmmo = maxAmmo;
+    }
+
+    void OnEnable()
+    {
+        isReloading = false;
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+
+        if (isReloading) { return; }
+
+        if ((currentAmmo < maxAmmo && Input.GetKeyDown(KeyCode.R)) || currentAmmo <= 0)
         {
-            Shoot();
+            StartCoroutine(Reload());
+            return;
+        }
+
+        if (automatic)
+        {
+            if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
+            {
+                nextTimeToFire = Time.time + 1f / fireRate;
+                Shoot();
+            }
+        }
+        else
+        {
+            if (Input.GetButtonDown("Fire1") && Time.time >= nextTimeToFire)
+            {
+                nextTimeToFire = Time.time + 1f / fireRate;
+                Shoot();
+            }
         }
     }
 
     void Shoot()
     {
-        GameObject bulletObject = Instantiate(bulletPrefab, playerCamera.transform.position + playerCamera.transform.forward, Quaternion.identity);
-        bulletObject.transform.forward = playerCamera.transform.forward;
+        RaycastHit hit;
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, range))
+        {
+            Instantiate(BulletImpactVFX, hit.point, Quaternion.LookRotation(hit.normal));
+        }
         MuzzleFlashVFX.Play();
+        currentAmmo--;
     }
+
+    IEnumerator Reload()
+    {
+        isReloading = true;
+        yield return new WaitForSeconds(reloadTime);
+        currentAmmo = maxAmmo;
+        isReloading = false;
+    }
+
 }
