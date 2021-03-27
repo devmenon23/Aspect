@@ -20,7 +20,7 @@ public class GunManager : MonoBehaviour
     [SerializeField] Camera playerCamera;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] VisualEffect MuzzleFlashVFX;
-    [SerializeField] VisualEffectObject BulletImpactVFX;
+    [SerializeField] VisualEffect BulletImpactVFX;
 
     void Start()
     {
@@ -67,6 +67,7 @@ public class GunManager : MonoBehaviour
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, range))
         {
             Instantiate(BulletImpactVFX, hit.point, Quaternion.LookRotation(hit.normal));
+            print("hit");
         }
         MuzzleFlashVFX.Play();
         currentAmmo--;
