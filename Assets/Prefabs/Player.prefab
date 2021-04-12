@@ -130,10 +130,13 @@ MonoBehaviour:
   nextTimeToFire: 0
   maxAmmo: 12
   reloadTime: 1
+  verticalIntensity: 2.5
+  horizontalIntensity: 2
+  smooth: 10
   playerCamera: {fileID: 787052050423227512}
   bulletPrefab: {fileID: 6298730616525998119, guid: a9e5d770d8b511643bad7a48ab3ce54b, type: 3}
   MuzzleFlashVFX: {fileID: 481715547}
-  BulletImpactVFX: {fileID: 8673233139284636272, guid: 19caddeddbd6d804d9d31f49353af015, type: 3}
+  BulletImpactVFX: {fileID: 582428589568970835, guid: 19caddeddbd6d804d9d31f49353af015, type: 3}
 --- !u!1 &787052048577570008
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,13 +305,14 @@ MonoBehaviour:
   controller: {fileID: 787052049871221528}
   playerCamera: {fileID: 787052050423227512}
   currentState: 0
-  sprintingSpeed: 10
-  walkingSpeed: 7
+  sprintingSpeed: 12
+  walkingSpeed: 5
   crouchingSpeed: 3
   jumpHeight: 2
   gravity: -19.62
   reducedHeight: 1.8
   cameraAnimator: {fileID: 787052048577570006}
+  weaponHolder: {fileID: 6564818744555608202}
   groundCheck: {fileID: 787052049205443295}
   groundMask:
     serializedVersion: 2
@@ -544,12 +548,15 @@ MonoBehaviour:
   fireRate: 15
   automatic: 1
   nextTimeToFire: 0
-  maxAmmo: 32
+  maxAmmo: 25
   reloadTime: 1
+  verticalIntensity: 2
+  horizontalIntensity: 1
+  smooth: 10
   playerCamera: {fileID: 787052050423227512}
   bulletPrefab: {fileID: 6298730616525998119, guid: a9e5d770d8b511643bad7a48ab3ce54b, type: 3}
   MuzzleFlashVFX: {fileID: 6715177972339156132}
-  BulletImpactVFX: {fileID: 8673233139284636272, guid: 19caddeddbd6d804d9d31f49353af015, type: 3}
+  BulletImpactVFX: {fileID: 582428589568970835, guid: 19caddeddbd6d804d9d31f49353af015, type: 3}
 --- !u!1 &3183660089772896451
 GameObject:
   m_ObjectHideFlags: 0
