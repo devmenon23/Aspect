@@ -254,13 +254,15 @@ GameObject:
   - component: {fileID: 4398818239886518}
   - component: {fileID: 33934467893997080}
   - component: {fileID: 23294498579475270}
+  - component: {fileID: 6808744794810973330}
+  - component: {fileID: 802962278}
   m_Layer: 0
   m_Name: Assault Rifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4398818239886518
 Transform:
   m_ObjectHideFlags: 0
@@ -328,6 +330,53 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6808744794810973330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719131515888008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &802962278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719131515888008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc5232f11ef48eb4092ea2d7ce859eaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  range: 100
+  fireRate: 15
+  automatic: 1
+  nextTimeToFire: 0
+  maxAmmo: 25
+  reloadTime: 1
+  verticalIntensity: 2
+  horizontalIntensity: 1
+  smooth: 10
+  playerCameraHolder: {fileID: 0}
+  MuzzleFlashVFX: {fileID: 8765380940925943063}
+  BulletImpactVFX: {fileID: 582428589568970835, guid: 19caddeddbd6d804d9d31f49353af015, type: 3}
 --- !u!1 &3068070047559344703
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,7 +453,7 @@ VFXRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3068070047559344703}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
