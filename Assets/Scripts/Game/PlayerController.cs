@@ -15,8 +15,8 @@ public class PlayerController : MonoBehaviour
     public PlayerState currentState;
 
     [Header("Health")]
-/*    [SerializeField] Image healthBarImg;
-    [SerializeField] GameObject ui;*/
+    [SerializeField] Image healthBarImg;
+    [SerializeField] GameObject ui;
     const float maxHealth = 100f;
     float currentHealth = maxHealth;
 
@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
         if (!PV.IsMine) 
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
-            //Destroy(ui);
+            Destroy(ui);
         }
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -242,7 +242,7 @@ public class PlayerController : MonoBehaviour
         if (!PV.IsMine) { return; }
 
         currentHealth -= damage;
-/*        healthBarImg.fillAmount = currentHealth / maxHealth;*/
+        healthBarImg.fillAmount = currentHealth / maxHealth;
 
         if (currentHealth <= 0)
         {
