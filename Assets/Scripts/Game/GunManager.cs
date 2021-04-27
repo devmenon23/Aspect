@@ -27,6 +27,7 @@ public class GunManager : MonoBehaviour
 
     [SerializeField] Transform playerCameraHolder;
     [SerializeField] VisualEffect MuzzleFlashVFX;
+    [SerializeField] GameObject ProjectileVFX;
     [SerializeField] VisualEffect BulletImpactVFX;
 
 
@@ -97,6 +98,8 @@ public class GunManager : MonoBehaviour
     void RPC_Shoot(Vector3 hitPos, Vector3 hitNor)
     {
         MuzzleFlashVFX.Play();
+        GameObject projectile = Instantiate(ProjectileVFX, MuzzleFlashVFX.transform.position, Quaternion.identity);
+        projectile.transform.forward = playerCameraHolder.forward;
         Instantiate(BulletImpactVFX, hitPos, Quaternion.LookRotation(hitNor));
     }
 
