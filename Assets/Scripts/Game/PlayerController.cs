@@ -1,6 +1,7 @@
 ﻿using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -53,6 +54,11 @@ public class PlayerController : MonoBehaviour
     float groundDistance = 0.4f;
     bool isGrounded;
 
+    [Header("Player Info UI")]
+    [SerializeField] TMP_Text usernameText;
+    [SerializeField] Image otherHealthBarImg;
+    [SerializeField] GameObject otherUI;
+
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -66,12 +72,16 @@ public class PlayerController : MonoBehaviour
             Destroy(GetComponentInChildren<Camera>().gameObject);
             Destroy(ui);
         }
-
+        else
+        {
+            otherUI.SetActive(false);
+        }
         Cursor.lockState = CursorLockMode.Locked;
         currentState = PlayerState.idle;
         speed = walkingSpeed;
         originalHeight = controller.height;
         weaponHolderOrigin = weaponHolder.localPosition;
+        usernameText.text = PhotonNetwork.NickName;
     }
 
     void Update()
@@ -243,6 +253,7 @@ public class PlayerController : MonoBehaviour
 
         currentHealth -= damage;
         healthBarImg.fillAmount = currentHealth / maxHealth;
+        otherHealthBarImg.fillAmount = currentHealth / maxHealth;
 
         if (currentHealth <= 0)
         {
