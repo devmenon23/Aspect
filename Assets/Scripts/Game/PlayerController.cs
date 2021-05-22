@@ -19,7 +19,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Image healthBarImg;
     [SerializeField] GameObject ui;
     const float maxHealth = 100f;
-    float currentHealth = maxHealth;
+    public float currentHealth = maxHealth;
+
+    [Header("KillCounter")]
+    [SerializeField] TMP_Text killCounterText;
+    int kills = 0;
 
     [Header("Look")]
     public float mouseSensitivity = 100f;
@@ -56,6 +60,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Player Info UI")]
     [SerializeField] TMP_Text usernameText;
+    public Animator healthUIAnimator;
     [SerializeField] Image otherHealthBarImg;
     [SerializeField] GameObject otherUI;
 
@@ -63,6 +68,7 @@ public class PlayerController : MonoBehaviour
     {
         PV = GetComponent<PhotonView>();
         playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
+        healthUIAnimator.SetFloat("Health_current", currentHealth);
     }
 
     void Start()
@@ -81,11 +87,13 @@ public class PlayerController : MonoBehaviour
         speed = walkingSpeed;
         originalHeight = controller.height;
         weaponHolderOrigin = weaponHolder.localPosition;
+        killCounterText.text = kills.ToString();
         usernameText.text = PhotonNetwork.NickName;
     }
 
     void Update()
     {
+        otherHealthBarImg.fillAmount = healthUIAnimator.GetFloat("Health_current") / maxHealth;
         if (!PV.IsMine) { return; }
 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -241,6 +249,12 @@ public class PlayerController : MonoBehaviour
         targetWeaponBobPos = weaponHolderOrigin + new Vector3 (Mathf.Cos(z) * xIntensity, Mathf.Sin(z * 2) * yIntensity, 0);
     }
 
+    public void GetKill()
+    {
+        kills += 1;
+        killCounterText.text = kills.ToString();
+    }
+
     public void TakeDamage(float damage)
     {
         PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
@@ -253,7 +267,7 @@ public class PlayerController : MonoBehaviour
 
         currentHealth -= damage;
         healthBarImg.fillAmount = currentHealth / maxHealth;
-        otherHealthBarImg.fillAmount = currentHealth / maxHealth;
+        healthUIAnimator.SetFloat("Health_current", currentHealth);
 
         if (currentHealth <= 0)
         {

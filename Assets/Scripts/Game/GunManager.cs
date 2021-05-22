@@ -25,6 +25,7 @@ public class GunManager : MonoBehaviour
     [SerializeField] float smooth;
     private Quaternion originRotation;
 
+    [SerializeField] PlayerController player;
     [SerializeField] Transform playerCameraHolder;
     [SerializeField] VisualEffect MuzzleFlashVFX;
     [SerializeField] GameObject ProjectileVFX;
@@ -34,6 +35,7 @@ public class GunManager : MonoBehaviour
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
+        player = GetComponentInParent<PlayerController>();
     }
 
     void Start()
@@ -88,7 +90,14 @@ public class GunManager : MonoBehaviour
         {
             if (hit.transform.CompareTag("Player"))
             {
-                hit.collider.gameObject.GetComponent<PlayerController>().TakeDamage(damage);
+                PlayerController victim = hit.collider.gameObject.GetComponent<PlayerController>();
+                print("going to kill " + victim.healthUIAnimator.GetFloat("Health_current").ToString());
+                if (victim.healthUIAnimator.GetFloat("Health_current") - damage <= 0)
+                {
+                    print("get kill");
+                    player.GetKill();
+                } 
+                victim.TakeDamage(damage);
             }
             PV.RPC("RPC_Shoot", RpcTarget.All, hit.point, hit.normal);
         }
