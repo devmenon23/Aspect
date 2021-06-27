@@ -21,9 +21,14 @@ public class PlayerController : MonoBehaviour
     const float maxHealth = 100f;
     public float currentHealth = maxHealth;
 
-    [Header("KillCounter")]
+    [Header("Kill Counter")]
     [SerializeField] TMP_Text killCounterText;
-    int kills = 0;
+
+    [Header("Timer")]
+    [SerializeField] TMP_Text timerText;
+    [SerializeField] int matchLength = 60;
+    int currentMatchTime;
+    Coroutine timerCoroutine;
 
     [Header("Look")]
     public float mouseSensitivity = 100f;
@@ -87,8 +92,9 @@ public class PlayerController : MonoBehaviour
         speed = walkingSpeed;
         originalHeight = controller.height;
         weaponHolderOrigin = weaponHolder.localPosition;
-        killCounterText.text = kills.ToString();
         usernameText.text = PhotonNetwork.NickName;
+        killCounterText.text = playerManager.kills.ToString();
+        InitializeTimer();
     }
 
     void Update()
@@ -142,7 +148,7 @@ public class PlayerController : MonoBehaviour
         {
             cameraAnimator.Rebind();
             cameraAnimator.SetBool("Idle", true);
-            Headbob(idleCounter, 0.01f, 0.01f);
+            Headbob(idleCounter, 0.005f, 0.005f);
             idleCounter += Time.deltaTime;
             weaponHolder.localPosition = Vector3.Lerp(weaponHolder.localPosition, targetWeaponBobPos, Time.deltaTime * 1f);
         }
@@ -155,7 +161,7 @@ public class PlayerController : MonoBehaviour
                 cameraAnimator.SetBool("Sprint_Headbob", false);
                 cameraAnimator.SetBool("Walk_Headbob", true);
             }
-            Headbob(movementCounter, 0.015f, 0.015f);
+            Headbob(movementCounter, 0.005f, 0.005f);
             movementCounter += Time.deltaTime * 3f;
             weaponHolder.localPosition = Vector3.Lerp(weaponHolder.localPosition, targetWeaponBobPos, Time.deltaTime * 6f);
         }
@@ -168,7 +174,7 @@ public class PlayerController : MonoBehaviour
                 cameraAnimator.SetBool("Walk_Headbob", false);
                 cameraAnimator.SetBool("Sprint_Headbob", true);
             }
-            Headbob(movementCounter, 0.02f, 0.02f);
+            Headbob(movementCounter, 0.01f, 0.01f);
             movementCounter += Time.deltaTime * 5f;
             weaponHolder.localPosition = Vector3.Lerp(weaponHolder.localPosition, targetWeaponBobPos, Time.deltaTime * 10f);
         }
@@ -251,8 +257,8 @@ public class PlayerController : MonoBehaviour
 
     public void GetKill()
     {
-        kills += 1;
-        killCounterText.text = kills.ToString();
+        playerManager.kills += 1;
+        killCounterText.text = playerManager.kills.ToString();
     }
 
     public void TakeDamage(float damage)
@@ -278,6 +284,55 @@ public class PlayerController : MonoBehaviour
     void Die()
     {
         playerManager.Die();
+    }
+
+    void InitializeTimer()
+    {
+        currentMatchTime = matchLength;
+        RefreshTimerUI();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            timerCoroutine = StartCoroutine(Timer());
+        }
+    }
+
+    IEnumerator Timer()
+    {
+        yield return new WaitForSeconds(1f);
+
+        PV.RPC("RPC_RefreshTimer", RpcTarget.All);
+
+        if (currentMatchTime <= 0)
+        {
+            timerCoroutine = null;
+        }
+
+        else
+        {
+            timerCoroutine = StartCoroutine(Timer());
+        }
+    }
+
+    [PunRPC]
+    void RPC_RefreshTimer()
+    {
+        currentMatchTime -= 1;
+        RefreshTimerUI();
+    }
+
+    void RefreshTimerUI()
+    {
+        string minutes = (currentMatchTime / 60).ToString("00");
+        string seconds = (currentMatchTime % 60).ToString("00");
+        timerText.text = minutes + ":" + seconds;
+    }
+
+    void EndGame()
+    {
+        if (timerCoroutine != null) StopCoroutine(timerCoroutine);
+        currentMatchTime = 0;
+        RefreshTimerUI();
     }
 }
   

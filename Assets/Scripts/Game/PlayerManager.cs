@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System.IO;
+using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
     PhotonView PV;
 
-    GameObject playerController;
+    GameObject player;
+
+    public int kills = 0;
 
     private void Awake()
     {
@@ -26,12 +29,12 @@ public class PlayerManager : MonoBehaviour
     void CreateController()
     {
         Transform spawnPoint = SpawnManager.instance.GetSpawnPoint();
-        playerController = PhotonNetwork.Instantiate(Path.Combine("Photon Prefabs", "Player"), spawnPoint.position, spawnPoint.rotation, 0, new object[] { PV.ViewID });
+        player = PhotonNetwork.Instantiate(Path.Combine("Photon Prefabs", "Player"), spawnPoint.position, spawnPoint.rotation, 0, new object[] { PV.ViewID });
     }
 
     public void Die()
     {
-        PhotonNetwork.Destroy(playerController);
+        PhotonNetwork.Destroy(player);
         Invoke("CreateController", 3f);
     }
 }

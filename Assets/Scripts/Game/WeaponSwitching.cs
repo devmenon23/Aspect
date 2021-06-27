@@ -2,21 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class WeaponSwitching : MonoBehaviour
 {
     [SerializeField] int selectedWeapon = 0;
     [SerializeField] PhotonView PV;
 
+    [SerializeField] Image primary;
+    [SerializeField] Image secondary;
+    [SerializeField] float bright = 0.6f;
+    [SerializeField] float dim = 0.2f;
+
     void Start()
     {
-        SelectWeapon(); 
+        primary = primary.GetComponent<Image>();
+        secondary = secondary.GetComponent<Image>();
+        SelectWeapon();
     }
 
     void Update()
     {
         if (!PV.IsMine) { return; }
 
+        // Switching weapon
         int previousSelectedWeapon = selectedWeapon;
 
         if (Input.GetAxis("Mouse ScrollWheel") > 0f)
@@ -56,6 +65,27 @@ public class WeaponSwitching : MonoBehaviour
         if (previousSelectedWeapon != selectedWeapon)
         {
             SelectWeapon();
+        }
+
+        // Changing active weapon UI
+        if (selectedWeapon == 0)
+        {
+            var dimColor = secondary.color;
+            var brightColor = primary.color;
+            dimColor.a = dim;
+            brightColor.a = bright;
+            secondary.color = dimColor;
+            primary.color = brightColor;
+        }
+
+        else if (selectedWeapon == 1)
+        {
+            var dimColor = primary.color;
+            var brightColor = secondary.color;
+            dimColor.a = dim;
+            brightColor.a = bright;
+            primary.color = dimColor;
+            secondary.color = brightColor;
         }
     }
 

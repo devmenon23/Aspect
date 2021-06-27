@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 using Photon.Pun;
+using TMPro;
 
 public class GunManager : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class GunManager : MonoBehaviour
     private int currentAmmo;
     [SerializeField] float reloadTime = 1f;
     private bool isReloading = false;
+    [SerializeField] TMP_Text ammoText;
+
 
     [SerializeField] float verticalIntensity;
     [SerializeField] float horizontalIntensity;
@@ -40,7 +43,7 @@ public class GunManager : MonoBehaviour
 
     void Start()
     {
-        currentAmmo = maxAmmo;
+        InitializeAmmo();
         originRotation = transform.localRotation;
     }
 
@@ -86,15 +89,14 @@ public class GunManager : MonoBehaviour
     {
         RaycastHit hit;
         currentAmmo--;
+        RefreshAmmoUI();
         if (Physics.Raycast(playerCameraHolder.transform.position, playerCameraHolder.transform.forward, out hit, range))
         {
             if (hit.transform.CompareTag("Player"))
             {
                 PlayerController victim = hit.collider.gameObject.GetComponent<PlayerController>();
-                print("going to kill " + victim.healthUIAnimator.GetFloat("Health_current").ToString());
                 if (victim.healthUIAnimator.GetFloat("Health_current") - damage <= 0)
                 {
-                    print("get kill");
                     player.GetKill();
                 } 
                 victim.TakeDamage(damage);
@@ -117,6 +119,7 @@ public class GunManager : MonoBehaviour
         isReloading = true;
         yield return new WaitForSeconds(reloadTime);
         currentAmmo = maxAmmo;
+        RefreshAmmoUI();
         isReloading = false;
     }
 
@@ -131,5 +134,16 @@ public class GunManager : MonoBehaviour
         Quaternion targetRotation = originRotation * xAdj * yAdj;
 
         transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * smooth);
+    }
+
+    void InitializeAmmo()
+    {
+        currentAmmo = maxAmmo;
+        RefreshAmmoUI();
+    }
+
+    void RefreshAmmoUI()
+    {
+        ammoText.text = currentAmmo.ToString("00") + "/" + maxAmmo.ToString("00");
     }
 }
