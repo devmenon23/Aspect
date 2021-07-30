@@ -883,6 +883,7 @@ MonoBehaviour:
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
   m_UISuperCollapsed: 0
+  m_Owner: {fileID: 8926484042661614585}
   opaqueRenderQueue: 0
   transparentRenderQueue: 1
 --- !u!114 &8926484042661614591
@@ -2290,6 +2291,7 @@ MonoBehaviour:
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
   m_UISuperCollapsed: 0
+  m_Owner: {fileID: 8926484042661614671}
   opaqueRenderQueue: 0
   transparentRenderQueue: 1
 --- !u!114 &8926484042661614677
@@ -4139,6 +4141,7 @@ MonoBehaviour:
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
   m_UISuperCollapsed: 0
+  m_Owner: {fileID: 8926484042661614773}
   opaqueRenderQueue: 0
   transparentRenderQueue: 1
 --- !u!114 &8926484042661614779
@@ -6353,6 +6356,7 @@ MonoBehaviour:
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
   m_UISuperCollapsed: 0
+  m_Owner: {fileID: 8926484042661614868}
   opaqueRenderQueue: 0
   transparentRenderQueue: 1
 --- !u!114 &8926484042661614872
