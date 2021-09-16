@@ -43,12 +43,13 @@ public class GunManager : MonoBehaviour
 
     void Start()
     {
-        InitializeAmmo();
+        RefreshAmmoUI();
         originRotation = transform.localRotation;
     }
 
     void OnEnable()
     {
+        InitializeAmmo();
         isReloading = false;    
     }
 
@@ -98,11 +99,12 @@ public class GunManager : MonoBehaviour
                 if (victim.healthUIAnimator.GetFloat("Health_current") - damage <= 0)
                 {
                     player.GetKill();
-                } 
+                }
                 victim.TakeDamage(damage);
             }
-            PV.RPC("RPC_Shoot", RpcTarget.All, hit.point, hit.normal);
         }
+
+        PV.RPC("RPC_Shoot", RpcTarget.All, hit.point, hit.normal);
     }
 
     [PunRPC]
@@ -111,7 +113,10 @@ public class GunManager : MonoBehaviour
         MuzzleFlashVFX.Play();
         GameObject projectile = Instantiate(ProjectileVFX, MuzzleFlashVFX.transform.position, Quaternion.identity);
         projectile.transform.forward = playerCameraHolder.forward;
-        Instantiate(BulletImpactVFX, hitPos, Quaternion.LookRotation(hitNor));
+        if (hitPos != new Vector3(0, 0, 0) && hitNor != new Vector3(0, 0, 0))
+        {
+            Instantiate(BulletImpactVFX, hitPos, Quaternion.LookRotation(hitNor));
+        }
     }
 
     IEnumerator Reload()

@@ -6,9 +6,9 @@ public class ProjectileManager : MonoBehaviour
 {
     [SerializeField] float speed = 100f;
 
-    void Update()
+    void Update() 
     {
         transform.position += transform.forward * speed * Time.deltaTime;
-        Destroy(gameObject, 1f);
+        Destroy(gameObject, 2f);
     }
 }

@@ -60,14 +60,12 @@ public class PlayerController : MonoBehaviour
     [Header("Ground Check")]
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask groundMask;
-    float groundDistance = 0.4f;
+    float groundDistance = 1f;
     bool isGrounded;
 
     [Header("Player Info UI")]
-    [SerializeField] TMP_Text usernameText;
     public Animator healthUIAnimator;
     [SerializeField] Image otherHealthBarImg;
-    [SerializeField] GameObject otherUI;
 
     private void Awake()
     {
@@ -83,16 +81,11 @@ public class PlayerController : MonoBehaviour
             Destroy(GetComponentInChildren<Camera>().gameObject);
             Destroy(ui);
         }
-        else
-        {
-            otherUI.SetActive(false);
-        }
         Cursor.lockState = CursorLockMode.Locked;
         currentState = PlayerState.idle;
         speed = walkingSpeed;
         originalHeight = controller.height;
         weaponHolderOrigin = weaponHolder.localPosition;
-        usernameText.text = PhotonNetwork.NickName;
         killCounterText.text = playerManager.kills.ToString();
         InitializeTimer();
     }
@@ -207,7 +200,7 @@ public class PlayerController : MonoBehaviour
             currentState = PlayerState.idle;
         }
 
-        else if (speed == walkingSpeed  && (moveX > 0 || moveZ > 0))
+        else if (speed == walkingSpeed && (moveX > 0 || moveX < 0 || moveZ > 0 || moveZ < 0))
         {
             currentState = PlayerState.walking;
         }

@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6547262299236357493}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0074, y: 0.0138, z: 0.4338}
-  m_LocalScale: {x: 1.3010294, y: 1.3010294, z: 1.3010294}
+  m_LocalPosition: {x: -0.0074, y: 0.0263, z: 0.3041}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 8088699809921139708}
   m_RootOrder: 1
@@ -54,7 +54,10 @@ VisualEffect:
     m_Vector3f:
       m_Array: []
     m_Vector4f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 1.1838163, y: 0.57641315, z: 0.123959824, w: 0.49}
+        m_Name: Color01
+        m_Overridden: 1
     m_Uint:
       m_Array: []
     m_Int:
@@ -180,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  range: 100
+  range: 10000
   fireRate: 8
   automatic: 1
   nextTimeToFire: 0
@@ -208,15 +211,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a198d605c2ab43f47bc123eaa4d35383, type: 3}
       propertyPath: m_LocalScale.x
-      value: 6
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a198d605c2ab43f47bc123eaa4d35383, type: 3}
       propertyPath: m_LocalScale.y
-      value: 6
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a198d605c2ab43f47bc123eaa4d35383, type: 3}
       propertyPath: m_LocalScale.z
-      value: 6
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a198d605c2ab43f47bc123eaa4d35383, type: 3}
       propertyPath: m_LocalPosition.x
